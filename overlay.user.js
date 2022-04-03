@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         April Knights & Alliance overlay
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  try to take over the canvas!
 // @author       oralekin, LittleEndu, ekgame, iratekalypso, LeoVerto
 // @match        https://hot-potato.reddit.com/embed*
