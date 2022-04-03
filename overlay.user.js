@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         April Knights & Alliance overlay
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  try to take over the canvas!
 // @author       oralekin, LittleEndu, ekgame, iratekalypso, LeoVerto
 // @match        https://hot-potato.reddit.com/embed*
@@ -15,7 +15,7 @@ if (window.top !== window.self) {
         const image = document.createElement("img");
         image.src = "https://april-knights.github.io/pixel/overlay.png";
         image.onload = () => {
-            image.style = `position: absolute; left: 0; top: 0; width: ${image.width/3}px; height: ${image.height/3}px; image-rendering: pixelated; z-index: 1`;
+            image.style = `position: absolute; left: 0; top: 0; width: ${image.width/3}px; height: ${image.height/3}px; image-rendering: pixelated; z-index: 2`;
         };
       
         // Add the image as overlay
