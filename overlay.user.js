@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         April Knights & Alliance overlay
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.6
 // @description  try to take over the canvas!
 // @author       oralekin, LittleEndu, ekgame, iratekalypso, LeoVerto
 // @match        https://hot-potato.reddit.com/embed*
@@ -9,18 +9,19 @@
 // @downloadURL  https://github.com/april-knights/r-place-2022/raw/main/overlay.user.js
 // @grant        none
 // ==/UserScript==
-if (window.top !== window.self) {
-    window.addEventListener('load', () => {
-        // Load the image
-        const image = document.createElement("img");
-        image.src = "https://april-knights.github.io/pixel/overlay.png";
+
+function setup() {
+    // Load the image
+        let image = document.createElement("img");
+        image.setAttribute("id", "mona-lisa-helper-overlay");
+        image.src = "https://april-knights.github.io/pixel/overlay.png?cachebuster=" + new Date().getTime();
         image.onload = () => {
             image.style = `position: absolute; left: 0; top: 0; width: ${image.width/3}px; height: ${image.height/3}px; image-rendering: pixelated; z-index: 2`;
         };
       
         // Add the image as overlay
-        const camera = document.querySelector("mona-lisa-embed").shadowRoot.querySelector("mona-lisa-camera");
-        const canvas = camera.querySelector("mona-lisa-canvas");
+        let camera = document.querySelector("mona-lisa-embed").shadowRoot.querySelector("mona-lisa-camera");
+        let canvas = camera.querySelector("mona-lisa-canvas");
         canvas.shadowRoot.querySelector('.container').appendChild(image);
       
         // Add a style to put a hole in the pixel preview (to see the current or desired color)
@@ -33,5 +34,28 @@ if (window.top !== window.self) {
               preview.shadowRoot.appendChild(style);
             }
         }, 100);
+}
+
+function reload() {
+    // TODO: Replace this shitty hack with something decent
+    let camera = document.querySelector("mona-lisa-embed").shadowRoot.querySelector("mona-lisa-camera");
+    let canvas = camera.querySelector("mona-lisa-canvas");
+    let image = canvas.shadowRoot.getElementById("mona-lisa-helper-overlay");
+    image.parentNode.removeChild(image);
+    setup();
+    console.log("Reloaded overlay");
+}
+
+function auto_reload() {
+    reload();
+    // Reload outline every five to six minutes
+    setTimeout( auto_reload, (5 * 60 + Math.random() * 60) * 1000);
+}
+
+if (window.top !== window.self) {
+    window.addEventListener('load', () => {
+        setup();
+        // First reload in five minutes
+        setTimeout( auto_reload, (5 * 60) * 1000);
     }, false);
 }
