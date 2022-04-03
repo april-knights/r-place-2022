@@ -6,6 +6,7 @@
 // @author       oralekin, LittleEndu, ekgame, iratekalypso, LeoVerto
 // @match        https://hot-potato.reddit.com/embed*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=reddit.com
+// @downloadURL  https://github.com/april-knights/r-place-2022/raw/main/overlay.user.js
 // @grant        none
 // ==/UserScript==
 if (window.top !== window.self) {
