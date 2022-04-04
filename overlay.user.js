@@ -12,22 +12,27 @@
 // ==/UserScript==
 
 function addWarpSelect(structures) {
-    let topControls = document.querySelector("mona-lisa-embed").shadowRoot.querySelector("mona-lisa-share-container").getElementsByClassName("top-controls")[0];
-    let warpSelect = document.createElement("select");
+    var topControls = document.querySelector("mona-lisa-embed").shadowRoot.querySelector("mona-lisa-share-container").getElementsByClassName("top-controls")[0];
+    var warpSelect = document.createElement("select");
     warpSelect.setAttribute("id", "warp-select");
     warpSelect.setAttribute("style", "pointer-events: all;");
     warpSelect.innerHTML = '<option value=""">Warp to structure</option>';
 
+    function goToCoordinates(x, y) {
+        window.top.location.replace("https://www.reddit.com/r/place/?cx=" + x + "&cy=" + y + "&px=20");
+    }
+
     Object.keys(structures).forEach(name => {
-        let option = document.createElement("option");
-        option.value = name;
-        option.innerText = name;
-        let x = structures[name].start_x;
-        let y = structures[name].start_y;
-        option.onclick = function() {
-            window.top.location.replace("https://www.reddit.com/r/place/?cx=" + x + "&cy=" + y + "&px=20");
-        };
-        warpSelect.append(option);
+        (function () {
+            var option = document.createElement("option");
+            option.value = name;
+            option.innerText = name;
+            var structure = structures[name];
+            var x = structure.start_x + Math.floor((structure.end_x - structure.start_x) / 2);
+            var y = structure.start_y + Math.floor((structure.end_y - structure.start_y) / 2);
+            option.addEventListener("click", function() { goToCoordinates(x, y); }, false);
+            warpSelect.append(option);
+        }());
     });
 
     topControls.append(warpSelect);
